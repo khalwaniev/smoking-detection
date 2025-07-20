@@ -1,0 +1,32 @@
+# Core
+torch==2.2.2          # adjust to your CUDA build (or leave for CPU)
+torchvision==0.17.2
+numpy
+pandas
+opencv-python
+scikit-learn
+matplotlib
+seaborn
+
+# Face Detection / Recognition (InsightFace bundles RetinaFace + ArcFace)
+insightface==0.7.3
+onnxruntime-gpu; sys_platform != "darwin"
+onnx
+
+# Object Detection (Ultralytics YOLOv8 for baseline small object attempts)
+ultralytics==8.2.33
+
+# (Later) Faster R-CNN baseline already in torchvision
+# Action Recognition (will add SlowFast dependencies later)
+pytorchvideo==0.1.5
+av
+
+# Utilities
+tqdm
+pydantic
+PyYAML
+loguru
+
+# Testing
+pytest
+
