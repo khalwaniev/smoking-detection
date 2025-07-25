@@ -13,12 +13,19 @@ class FaceRecognizer:
     def recognize_in_image(self, image_bgr):
         faces = self.detector.detect(image_bgr)
         results = []
+        if len(faces) == 0:
+            logger.info("No faces detected.")
+            return results
         for f in faces:
             emb = f.normed_embedding
+            if emb is None or len(emb) == 0:
+                logger.warning("Face detected without embedding. Skipping.")
+                continue
             sims = np.dot(self.gallery.embeddings, emb)
             best_idx = np.argmax(sims)
             best_score = sims[best_idx]
-            if best_score >= 1 - config.RECOGNITION_COS_THRESHOLD:
+            # Threshold logic: accept if above empirical cosine similarity
+            if best_score >= config.RECOGNITION_COS_THRESHOLD:
                 person_id = self.gallery.meta.iloc[best_idx].person_id
             else:
                 person_id = "UNKNOWN"
